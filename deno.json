@@ -1,0 +1,27 @@
+{
+    "name": "SmoothieUI",
+    "version": "0.0.1",
+    "description": "",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/psytrap/SmoothieUI.git"
+    },
+    "keywords": [],
+    "license": "MIT",
+    "author": {
+      "name": "psytrap"
+    },
+    "compilerOptions": {
+      "strict": true,
+      "lib": ["dom", "dom.iterable", "esnext"]
+    },
+    "exports": {
+      ".": "./mod.ts",
+    },
+    "publish": {
+      "include": [
+        "*.ts"
+        "assets/*"
+      ]
+    }
+  }
