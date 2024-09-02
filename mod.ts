@@ -1,7 +1,7 @@
 
 import { Page } from "./page.ts";
 import { Widgets } from "./widgets.ts"
-import { join, fromFileUrl } from "jsr:@std/path";
+import { join, fromFileUrl } from "jsr:@std/path@0.223.0";
 
 export { Page, Widgets }
 
