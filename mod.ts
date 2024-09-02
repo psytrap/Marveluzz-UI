@@ -6,15 +6,13 @@ import { join, fromFileUrl } from "jsr:@std/path@0.223.0";
 export { Page, Widgets }
 
 const baseUrl = new URL(".", import.meta.url);
+let WEB_IO_RESOURCE: string;
 if (baseUrl.protocol === "file:") {
     const __dirname = fromFileUrl(baseUrl);
-    const WEB_IO_RESOURCE = join(__dirname, "assets", "index.html.template");
+    WEB_IO_RESOURCE = join(__dirname, "assets", "index.html.template");
 } else {
-    const WEB_IO_RESOURCE = new URL("assets/index.html.template", import.meta.url).href;
+    WEB_IO_RESOURCE = new URL("assets/index.html.template", import.meta.url).href;
 }
-
-const __dirname = fromFileUrl(new URL("assets", import.meta.url));
-const WEB_IO_RESOURCE = join(__dirname, "index.html.template");
 const decoder = new TextDecoder("utf-8");
 const indexHtmlTemplate = decoder.decode(await Deno.readFile(WEB_IO_RESOURCE));
 
