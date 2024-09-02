@@ -1,10 +1,17 @@
 
 import { Page } from "./page.ts";
 import { Widgets } from "./widgets.ts"
-import { join } from "jsr:@std/path@0.223.0";
-import { fromFileUrl } from "jsr:@std/path@0.223.0";
+import { join, fromFileUrl } from "jsr:@std/path";
 
 export { Page, Widgets }
+
+const baseUrl = new URL(".", import.meta.url);
+if (baseUrl.protocol === "file:") {
+    const __dirname = fromFileUrl(baseUrl);
+    const WEB_IO_RESOURCE = join(__dirname, "assets", "index.html.template");
+} else {
+    const WEB_IO_RESOURCE = new URL("assets/index.html.template", import.meta.url).href;
+}
 
 const __dirname = fromFileUrl(new URL("assets", import.meta.url));
 const WEB_IO_RESOURCE = join(__dirname, "index.html.template");
