@@ -6,15 +6,16 @@ import { join, fromFileUrl } from "jsr:@std/path@0.223.0";
 export { Page, Widgets }
 
 const baseUrl = new URL(".", import.meta.url);
-let WEB_IO_RESOURCE: string;
+let indexHtmlTemplate: string;
 if (baseUrl.protocol === "file:") {
     const __dirname = fromFileUrl(baseUrl);
-    WEB_IO_RESOURCE = join(__dirname, "assets", "index.html.template");
+    const filePath = join(__dirname, "assets", "index.html.template");
+    const decoder = new TextDecoder("utf-8");
+    indexHtmlTemplate = decoder.decode(await Deno.readFile(filePath));
 } else {
-    WEB_IO_RESOURCE = new URL("assets/index.html.template", import.meta.url).href;
+    const response = await fetch(new URL("assets/index.html.template", import.meta.url).href);
+    indexHtmlTemplate = await response.text();
 }
-const decoder = new TextDecoder("utf-8");
-const indexHtmlTemplate = decoder.decode(await Deno.readFile(WEB_IO_RESOURCE));
 
 export const handleRequest = async (req: Request, pageTitle: string, pageCallback: (page: Page) => Promise<void>): Promise<Response> => {
     const url = new URL(req.url);

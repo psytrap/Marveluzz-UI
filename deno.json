@@ -1,6 +1,6 @@
 {
     "name": "@smoothie-ui/smoothie-ui",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "",
     "repository": {
       "type": "git",
@@ -20,7 +20,7 @@
     },
     "publish": {
       "include": [
-        "*.ts"
+        "*.ts",
         "assets/*"
       ]
     }
