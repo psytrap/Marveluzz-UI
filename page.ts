@@ -1,10 +1,12 @@
 import { CallbackRegistry } from "./callback-registery.ts"
+import { outputCommandInterface } from "./widgets.ts"
 
-// TODO strict command Object interface definitions
-
+// Scope management? Callbacks
 export class Page {
     private socket: WebSocket;
     private callbacks: CallbackRegistry;
+    private scopeStack: string[] = []; // TODO
+
     constructor(socket: WebSocket) {
         this.socket = socket;
         this.callbacks = new CallbackRegistry();
@@ -16,7 +18,7 @@ export class Page {
         };
     }    
     
-    add({ command, callback }: { command: Object, callback?: () => void }): void { 
+    add({ command, callback }: { command: outputCommandInterface, callback?: () => void }): void { 
       if (callback) {
         const callback_id = this.addCallback(command.spec.scope, callback);
         command.spec.callback_id = callback_id;
@@ -68,5 +70,54 @@ export class Page {
         // Empty
       }
     }
-
 }
+
+
+
+
+
+/*
+class ResourceContext {
+  private resourceStack: string[] = [];
+
+  push(resource: string) {
+      this.resourceStack.push(resource);
+      console.log(`Acquired resource: ${resource}`);
+  }
+
+  pop() {
+      const resource = this.resourceStack.pop();
+      if (resource) {
+          console.log(`Released resource: ${resource}`);
+      }
+  }
+
+  // Helper method to mimic "with" behavior
+  use(resource: string, callback: () => void) {
+      this.push(resource);
+      try {
+          callback();
+      } finally {
+          this.pop();
+      }
+  }
+}
+
+// Usage
+const context = new ResourceContext();
+
+context.use('Resource1', () => {
+  console.log('Using Resource1');
+  // Do something with Resource1
+
+  // You could even nest resources
+  context.use('Resource2', () => {
+      console.log('Using Resource2');
+      // Do something with Resource2
+  });
+
+  // Resource2 is released automatically here
+});
+
+// Resource1 is released automatically here
+*/

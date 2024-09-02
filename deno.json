@@ -1,6 +1,6 @@
 {
-    "name": "SmoothieUI",
-    "version": "0.0.1",
+    "name": "@smoothie-ui/smoothie-ui",
+    "version": "0.0.2",
     "description": "",
     "repository": {
       "type": "git",
@@ -13,7 +13,7 @@
     },
     "compilerOptions": {
       "strict": true,
-      "lib": ["dom", "dom.iterable", "esnext"]
+      "lib": ["dom", "esnext", "deno.ns"]
     },
     "exports": {
       ".": "./mod.ts",

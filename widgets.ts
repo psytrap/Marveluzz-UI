@@ -9,6 +9,7 @@ interface outputInterface {
     type: string,
     position: number,
     scope: string,
+    callback_id?: number,
     dom_id?: string,
     style?: string,
     content?: string,
@@ -24,7 +25,7 @@ interface outputInterface {
     }]
 }
 
-interface outputCommandInterface {
+export interface outputCommandInterface {
     command: string,
     task_id: EmptyString,
     spec: outputInterface
@@ -102,7 +103,7 @@ export class Widgets {
         return { command: command };
     }
 
-    static put_button(name: string, callback: () => void, scope: string | undefined = undefined, position: number = -1) {
+    static put_button(name: string, callback: () => void, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
         let type = "buttons";
         scope = this.scope(scope);
         const command: outputCommandInterface = {

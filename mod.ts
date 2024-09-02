@@ -1,8 +1,8 @@
 
 import { Page } from "./page.ts";
 import { Widgets } from "./widgets.ts"
-import { join } from "https://deno.land/std@0.204.0/path/mod.ts";
-import { fromFileUrl } from "https://deno.land/std@0.204.0/path/mod.ts";
+import { join } from "jsr:@std/path@0.223.0";
+import { fromFileUrl } from "jsr:@std/path@0.223.0";
 
 export { Page, Widgets }
 
