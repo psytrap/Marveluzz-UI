@@ -19,7 +19,18 @@ async function pageApp(page: Page) {
   page.add(Widgets.pin_input("number", "number_input","Number:"));
   page.add(Widgets.put_grid_scope("column", "COLUMN_TEST"));
   page.add(Widgets.pin_input("number", "number_input_a","Number:", "COLUMN_TEST"));
-  page.add(Widgets.pin_input("number", "number_input_b","Number:", "COLUMN_TEST"));  
+  page.add(Widgets.pin_input("number", "number_input_b","Number:", "COLUMN_TEST"));
+  page.add(Widgets.put_markdown("# Markdown Test\nText Body"));
+  page.add(Widgets.put_table([["1", "2", "3"], ["4", "5", "6", "7"], ["8", "9", "10"]], ["abc", "def", "hij"]));
+  page.add(Widgets.put_table([["1", undefined, "3"], ["4", Widgets.span("5", 2, 1), "6", "7"], ["8", "9", "10"]]));
+  page.add(Widgets.put_radio("radio_group", [{value: 1, label: "Letter A"}, {value: 2, label: "Letter B"}, {value: 3, label: "Letter C"}], "Choice:", 3));
+  page.add(Widgets.put_select("select_group", [{value: 1, label: "Letter A"}, {value: 2, label: "Letter B"}, {value: 3, label: "Letter C"}], "Select:", 2));
+  page.add(Widgets.put_checkbox("checkbox_group", [{value: 1, label: "Letter A"}, {value: 2, label: "Letter B"}, {value: 3, label: "Letter C"}], "Check:", 3));
+  page.add(Widgets.pin_input("number", "number_input","Number 2:", 2));
+  page.add(Widgets.pin_input("number", "number_input_any","Any Number:"));
+  page.add(Widgets.pin_input("text", "text_input","Text:", "Something"));  
+  page.add(Widgets.pin_input("password", "secret_input","Secret:", "Something"));  
+  
   await sleep(10);
 // TODO
 }
@@ -30,36 +41,3 @@ const handler = async (req: Request): Promise<Response> => {
 
 
 Deno.serve({ port }, handler);
-
-/*
-
-ui = new SmoothieUI();
-
-ui.register("/integration", my_app)
-
-ui.serve({port});
-*/
-/*
-
-const router = new Router();
-router
-  .get("/", (context) => {
-    context.response.body = "Hello world!";
-  })
-  .get("/book", (context) => {
-    context.response.body = Array.from(books.values());
-  })
-  .get("/book/:id", (context) => {
-    if (books.has(context?.params?.id)) {
-      context.response.body = books.get(context.params.id);
-    }
-  });
-
-const app = new Application();
-app.use(router.routes());
-app.use(router.allowedMethods());
-
-await app.listen({ port: 8000 });
-*/
-// Authentication?
-
