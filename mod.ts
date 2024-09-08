@@ -44,7 +44,7 @@ async function wsHandler(req: Request, pageCallback: (page: Page) => Promise<voi
     const page = new Page(socket);
     socket.onopen = async () => {
         console.log("WebSocket connection opened");
-        await pageCallback(page); // This will access the correct socket // catch errors
+        await pageCallback(page); // This will access the correct socket // catch errors / needs to be tested
         socket.close();
         console.log("Page closed!");
     };
