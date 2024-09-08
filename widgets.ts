@@ -66,7 +66,7 @@ type table = (string | spanElement | undefined)[][];
 
 
 export class Widgets {
-    static span(text, columns = 1, rows = 1): spanElement {
+    static span(text: string, columns = 1, rows = 1): spanElement {
         return { "text": text, "row": rows, "column": columns };
     }
     static put_table(table: table, header: header | undefined = undefined, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
@@ -144,7 +144,7 @@ export class Widgets {
         return { command: command };
     }
 
-    static use_scope(name: string, scope: string | undefined = undefined) {
+    static use_scope(name: string, scope: string | undefined = undefined):  outputCtlCommandInterface {
         const command: outputCtlCommandInterface = {
             "command": "output_ctl",
             "task_id": "",

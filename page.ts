@@ -233,7 +233,7 @@ export class Page {
     this.socket.send(JSON.stringify(command));
   }
 
-  async wait_for_close() {
+  async wait_for_close(): Promise<CloseEvent> {
     return new Promise((resolve) => {
       let close_listener = (event: CloseEvent) => {
         this.socket.removeEventListener("close", close_listener);
