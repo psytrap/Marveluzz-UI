@@ -42,25 +42,13 @@ export const handleRequest = async (req: Request, pageTitle: string, pageCallbac
 async function wsHandler(req: Request, pageCallback: (page: Page) => Promise<void>): Promise<Response> {
     const { response, socket } = Deno.upgradeWebSocket(req);
     const page = new Page(socket);
-
-
-
-
     socket.onopen = async () => {
         console.log("WebSocket connection opened");
-        await pageCallback(page); // This will access the correct socket
+        await pageCallback(page); // This will access the correct socket // catch errors
         socket.close();
+        console.log("Page closed!");
     };
 
-    //socket.send(JSON.stringify(command_scope));
-    /*
-    socket.onmessage = (event: MessageEvent) => {
-      console.log(`Message from client: ${event.data}`);
-      //handleMessage(notifierOnMessage, event);
-      // Echo the message back to the client
-      //socket.send(`Server received: ${event.data}`);
-    };
-    */
     socket.onclose = () => {
         console.log("WebSocket connection closed");
     };

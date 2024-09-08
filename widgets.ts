@@ -12,7 +12,7 @@ interface spanInterface {
 interface outputInterface {
     type: string,
     position: number,
-    scope: string,
+    scope?: string,
     callback_id?: number,
     dom_id?: string,
     style?: string,
@@ -24,7 +24,8 @@ interface outputInterface {
         "label": string,
         "name": string,
         options?: { value: number | string, label: string }[],
-        value?: number | string
+        value?: number | string,
+        rows?: number
     },
     buttons?: [{
         label: string
@@ -38,6 +39,20 @@ export interface outputCommandInterface {
     spec: outputInterface
 }
 
+export interface outputCtlCommandInterface {
+    command: string,
+    task_id: EmptyString,
+    spec: scopeInterface
+}
+
+export interface scopeInterface {
+    set_scope?: string,
+    position?: number,
+    if_exist?: string,
+    container?: string,
+    clear?: string,
+    remove?: string
+}
 
 export interface createWidgetsInterface {
     command: outputCommandInterface,
@@ -55,7 +70,6 @@ export class Widgets {
         return { "text": text, "row": rows, "column": columns };
     }
     static put_table(table: table, header: header | undefined = undefined, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
-        scope = this.scope(scope);
         let span: spanInterface = {};
         let stringTable: string[][] = [];
 
@@ -111,9 +125,8 @@ export class Widgets {
     static put_text(text: string, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
         return this.put_output("text", text, scope, position);
     }
-    static put_grid_scope(flow: "row" | "column", name: string, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface { // content: [createWidgetsInterface],
+    static put_scope(name: string | undefined, flow: "row" | "column" | undefined = undefined, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface { // content: [createWidgetsInterface],
         let type = "scope";
-        scope = this.scope(scope);
         const command: outputCommandInterface = {
             "command": "output",
             "task_id": "",
@@ -122,28 +135,36 @@ export class Widgets {
                 "scope": scope,
                 "position": position,
                 "dom_id": name,
-                "style": `display: grid; gap: 10px; grid-auto-flow: ${flow};`, // TODO Workaround: inline style
                 "contents": []
             }
+        }
+        if ( flow !== undefined) {
+            command.spec.style = `display: grid; gap: 10px; grid-auto-flow: ${flow};`; // TODO Workaround: inline style
         }
         return { command: command };
     }
 
-    static put_scope(name: string, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
-        let type = "scope";
-        scope = this.scope(scope);
-        const command: outputCommandInterface = {
-            "command": "output",
+    static use_scope(name: string, scope: string | undefined = undefined) {
+        const command: outputCtlCommandInterface = {
+            "command": "output_ctl",
             "task_id": "",
             "spec": {
-                "type": type,
-                "scope": scope,
-                "position": position,
-                "dom_id": name,
-                "contents": []
+                set_scope: name,
+                container: scope
             }
         }
-        return { command: command };
+        return command;
+
+    }
+    static remove_scope(name: string | undefined): outputCtlCommandInterface {
+        const command: outputCtlCommandInterface = {
+            "command": "output_ctl",
+            "task_id": "",
+            "spec": {
+                remove: name
+            }
+        }
+        return command;
     }
 
     static put_radio(name: string, options: { value: number, label: string }[], label: string, value: number, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
@@ -164,7 +185,6 @@ export class Widgets {
 
     private static put_radio_select_checkbox(type: string, name: string, options: { value: number, label: string }[], label: string, value: number, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
         const output_type = "pin";
-        scope = this.scope(scope);
         const command: outputCommandInterface = {
             "command": "output",
             "task_id": "",
@@ -189,11 +209,10 @@ export class Widgets {
     static pin_input(type: "text" | "number" | "password",
         name: string,
         label: string,
-        value: string | number = "",
+        value: string | number | undefined = "", // TODO undefined?
         scope: string | undefined = undefined,
         position: number = -1): createWidgetsInterface {
         const output_type = "pin";
-        scope = this.scope(scope);
         const command: outputCommandInterface = {
             "command": "output",
             "task_id": "",
@@ -204,20 +223,43 @@ export class Widgets {
                 input: {
                     "type": type,
                     "label": label,
-                    "name": name // DOM ID
+                    "name": name, // DOM ID
+                    "value": value
                 }//,
                 //"content": []
             }
         };
+        /*
         if (value !== undefined && command.spec !== undefined && command.spec.input !== undefined ) {
             command.spec.input.value = value;
-        }
+        }*/
         return { command: command };
+    }
+    static pin_textarea(name: string, label: string, rows: number = 6, value: string = "", scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
+        let type = "textarea";
+        const command : outputCommandInterface = {
+            "command": "output",
+            "task_id": "",
+            "spec": {
+                "type": "pin",
+                "scope": scope,
+                "position": position,
+                input: {
+                    "type": type,
+                    "name": name,
+                    "label": label,
+                    "value": value,
+                    "rows": rows,
+                }
+            }
+        };
+        return {command: command};
+
+
     }
 
     static put_button(name: string, callback: () => void, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
         let type = "buttons";
-        scope = this.scope(scope);
         const command: outputCommandInterface = {
             "command": "output",
             "task_id": "",
@@ -232,8 +274,14 @@ export class Widgets {
         return { command: command, callback: callback };
     }
 
+    static put_image(data: string, title: string = "Undefined", scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
+        // TODO use data URL
+        const html_tag = `<img src="${data}" alt="${title}" />`;
+        const command : createWidgetsInterface = this.put_output("html", html_tag, scope, position);
+        return command;
+    }
+
     private static put_output(type: string, content: string, scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
-        scope = this.scope(scope);
         const command: outputCommandInterface = {
             "command": "output",
             "task_id": "",
@@ -247,12 +295,4 @@ export class Widgets {
         return { command: command };
     }
 
-    private static scope(scope: string | undefined): string {
-        if (scope === undefined || scope === "") { // TODO how to handle "" correctly?
-            return `#${ROOT_SCOPE}`;
-        } else {
-            return `#${scope}`;
-        }
-
-    }
 }
