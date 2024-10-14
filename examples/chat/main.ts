@@ -1,9 +1,8 @@
 import { EventEmitter } from 'https://deno.land/x/event/mod.ts';
-import { handleRequest, Page, Widgets } from "../../mod.ts";
+import { handleRequest, Page, Widgets } from "jsr:@marveluzz-ui/marveluzz-ui";
 import { sleep } from "https://deno.land/x/sleep/mod.ts"
 
 const port: number = 8080;
-
 
 function username_callback(usernameEvent: EventEmitter) {
     usernameEvent.emit("username");
@@ -12,14 +11,12 @@ function message_callback(messageEvent: EventEmitter) {
     messageEvent.emit("message");
 }
 
-
 const globalEmitter = new EventEmitter();
 async function waitForGlobalEvent(eventName: string) {
     return new Promise(resolve => {
         globalEmitter.once(eventName, resolve);
     });
 }
-
 
 async function pageApp(page: Page) {
     // step #1 prompt username
@@ -61,7 +58,7 @@ async function pageApp(page: Page) {
     }
     globalEmitter.on("message", global_listener);
     page.setFocus("message");
-    // finally wait till clinet closes the page
+    // finally wait till client closes the page
     await page.wait_for_close();
     globalEmitter.off("message", global_listener); // global listener uses page.add(). We have to make sure it isn't used after the socket is closed.
 }

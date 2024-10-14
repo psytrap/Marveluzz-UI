@@ -41,12 +41,7 @@ async function pageApp(page: Page) {
   page.setValue<number>("number_input", 666);
   console.log(await page.getValue<number>("number_input"));
 
-
-  // TODO Dialog
-
-  // TODO pin_change_event -> callback
-  // TODO put_loading
-  // TODO slider
+  // TODO get set Radio/Combo/Checkbox
 
   await sleep(10);
 }

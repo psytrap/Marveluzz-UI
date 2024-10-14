@@ -3,6 +3,9 @@
 // TODO -> manage Callbacks (clear/remove scope + recursive) and integrate addCallback here
 // TODO scope in scope removal
 
+/**
+ * Registry for managing callback based on IDs and scope.
+ */
 export class CallbackRegistry  {
     private nextId: number = 0;
     private callbacks: Map<number, () => void> = new Map();
