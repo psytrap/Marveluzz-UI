@@ -64,7 +64,9 @@ type header = (string | spanElement | undefined)[];
 type table = (string | spanElement | undefined)[][];
 
 
-
+/**
+ * Collection of widgets that can be added to a page
+ */
 export class Widgets {
     /**
      * Create a table.
@@ -246,7 +248,7 @@ export class Widgets {
     }
 
     /**
-     * Create an interactive pull-down select element.
+     * Create an interactive drop-down list element.
      * @param name 
      * The name of the element used with the getter and setter functions
      * @param options
@@ -332,7 +334,7 @@ export class Widgets {
      * @param position 
      * @returns 
      */
-    static pin_input(type: "text" | "number" | "password",
+    static put_input(type: "text" | "number" | "password",
         name: string,
         label: string,
         value: string | number | undefined = "", // TODO undefined?
@@ -371,7 +373,7 @@ export class Widgets {
      * @param position 
      * @returns 
      */
-    static pin_textarea(name: string, label: string, rows: number = 6, value: string = "", scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
+    static put_textarea(name: string, label: string, rows: number = 6, value: string = "", scope: string | undefined = undefined, position: number = -1): createWidgetsInterface {
         let type = "textarea";
         const command : outputCommandInterface = {
             "command": "output",

@@ -1,7 +1,8 @@
 // Copyright 2024 the Marveluzz authors. All rights reserved. MIT license.
 
 /**
- * A basic server-side only reactive webframework that is simple and easy to use. 
+ * A basic server-side only reactive webframework that is simple and easy to use.
+ * @module
  * 
  * Marveluzz is derived from the Python library [PyWebIO](https://www.pyweb.io/) and ported to server-side JS.
  * 
@@ -32,7 +33,7 @@
  * 
  */
 
- import { join, fromFileUrl } from "jsr:@std/path@1.0.6";
+ import { join, fromFileUrl } from "@std/path";
  import { Page } from "./page.ts";
 import { Widgets } from "./widgets.ts"
 

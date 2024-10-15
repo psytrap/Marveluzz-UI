@@ -1,27 +1,30 @@
 {
-    "name": "@marveluzz-ui/marveluzz-ui",
-    "version": "0.0.7",
-    "description": "",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/psytrap/Marveluzz-UI.git"
-    },
-    "keywords": [],
-    "license": "MIT",
-    "author": {
-      "name": "psytrap"
-    },
-    "compilerOptions": {
-      "strict": true,
-      "lib": ["dom", "esnext", "deno.ns"]
-    },
-    "exports": {
-      ".": "./mod.ts",
-    },
-    "publish": {
-      "include": [
-        "*.ts",
-        "assets/*"
-      ]
-    }
+  "name": "@marveluzz-ui/marveluzz-ui",
+  "version": "0.0.8",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/psytrap/Marveluzz-UI.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "author": {
+    "name": "psytrap"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["dom", "esnext", "deno.ns"]
+  },
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "publish": {
+    "include": [
+      "*.ts",
+      "assets/*"
+    ]
+  },
+  "imports": {
+    "@std/path": "jsr:@std/path@^1.0.6"
   }
+}

@@ -14,10 +14,10 @@ async function pageApp(page: Page) {
   page.add(Widgets.put_text("TEXT"));
   page.add(Widgets.put_button("Click me!", callback));
   page.add(Widgets.put_text("TEXT"));
-  page.add(Widgets.pin_input("number", "number_input", "Number:"));
+  page.add(Widgets.put_input("number", "number_input", "Number:"));
   page.add(Widgets.put_scope("COLUMN_TEST", "column"));
-  page.add(Widgets.pin_input("number", "number_input_a", "Number:", 99));
-  page.add(Widgets.pin_input("number", "number_input_b", "Number:", undefined, "COLUMN_TEST"));
+  page.add(Widgets.put_input("number", "number_input_a", "Number:", 99));
+  page.add(Widgets.put_input("number", "number_input_b", "Number:", undefined, "COLUMN_TEST"));
   page.useScope();
   page.add(Widgets.put_markdown("# Markdown Test\nText Body"));
   page.add(Widgets.put_table([["1", "2", "3"], ["4", "5", "6", "7"], ["8", "9", "10"]], ["abc", "def", "hij"]));
@@ -25,17 +25,17 @@ async function pageApp(page: Page) {
   page.add(Widgets.put_radio("radio_group", [{ value: 1, label: "Letter A" }, { value: 2, label: "Letter B" }, { value: 3, label: "Letter C" }], "Choice:", 3));
   page.add(Widgets.put_select("select_group", [{ value: 1, label: "Letter A" }, { value: 2, label: "Letter B" }, { value: 3, label: "Letter C" }], "Select:", 2));
   page.add(Widgets.put_checkbox("checkbox_group", [{ value: 1, label: "Letter A" }, { value: 2, label: "Letter B" }, { value: 3, label: "Letter C" }], "Check:", 3));
-  page.add(Widgets.pin_input("number", "number_input_value", "Number 2:", 2));
-  page.add(Widgets.pin_input("number", "number_input_any", "Any Number:"));
-  page.add(Widgets.pin_input("text", "text_input", "Text:", "Something"));
-  page.add(Widgets.pin_input("password", "secret_input", "Secret:", "Something"));
+  page.add(Widgets.put_input("number", "number_input_value", "Number 2:", 2));
+  page.add(Widgets.put_input("number", "number_input_any", "Any Number:"));
+  page.add(Widgets.put_input("text", "text_input", "Text:", "Something"));
+  page.add(Widgets.put_input("password", "secret_input", "Secret:", "Something"));
   page.add(Widgets.put_scope("REMOVE"));
   page.add(Widgets.put_text("will be removed"))
   page.useScope();
   page.add(Widgets.put_text("will not be removed"))
   await sleep(3);
   page.removeScope("REMOVE");
-  page.add(Widgets.pin_textarea("textarea", "Eingabebox:"));
+  page.add(Widgets.put_textarea("textarea", "Eingabebox:"));
   page.add(Widgets.put_image(evil));
   console.log("setvalue(666)")
   page.setValue<number>("number_input", 666);

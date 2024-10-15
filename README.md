@@ -46,10 +46,10 @@ Deno.serve({ port }, handler);
 
 * Node support + glitch demo
 * Simplify examples
-* PyWebio Github submodule
+* PyWebIO Github submodule
 * Github automation
 * Feature completeness
 * Better scope handling, callback registery
 * TS code based scopes
-* Better naming scheme for widgets -> interactive
+* Better naming scheme for widgets? -> interactive?
 * Many more TODOs...

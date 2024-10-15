@@ -30,7 +30,7 @@ let current_session = undefined; // avoid complex session managment
 const globalEmitter = new EventEmitter();
 
 async function pageApp(page: Page) {
-  page.add(Widgets.pin_input("text", "connections_status", "Connections status", "Undefined State"));  
+  page.add(Widgets.put_input("text", "connections_status", "Connections status", "Undefined State"));  
 
   page.add(Widgets.put_markdown("# Outputs"));
   page.add(Widgets.put_scope("outputs", "column"));
@@ -38,7 +38,7 @@ async function pageApp(page: Page) {
     const output = `output${i}`;
     page.useScope("outputs");  
     page.add(Widgets.put_scope(output, "row"));
-    page.add(Widgets.pin_input("text", output, "", "Undefined State"));
+    page.add(Widgets.put_input("text", output, "", "Undefined State"));
     page.add(Widgets.put_button("On", () => { globalEmitter.emit("command", output, true) }));
     page.add(Widgets.put_button("Off", () => { globalEmitter.emit("command", output, false) }));
   }
@@ -49,7 +49,7 @@ async function pageApp(page: Page) {
     const input = `input${i}`;
     page.useScope("inputs");  
     page.add(Widgets.put_scope(input, "row"));
-    page.add(Widgets.pin_input("text", input, "", "Undefined State"));  
+    page.add(Widgets.put_input("text", input, "", "Undefined State"));  
   }
   let global_listener = async (status) => {
     // TODO more type checking

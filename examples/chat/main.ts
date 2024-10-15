@@ -27,7 +27,7 @@ async function pageApp(page: Page) {
         });
     }
     page.add(Widgets.put_scope("username_scope", "column"));
-    page.add(Widgets.pin_input("text", "username", "Enter your username:"));
+    page.add(Widgets.put_input("text", "username", "Enter your username:"));
     page.add(Widgets.put_button("Submit", () => { username_callback(eventEmitter) }));
     page.setFocus("username");
     await waitForLocalEvent("username");
@@ -39,7 +39,7 @@ async function pageApp(page: Page) {
     page.removeScope("username_scope");
     page.useScope();
     page.add(Widgets.put_scope("message_scope", "column"));
-    page.add(Widgets.pin_input("text", "message", ""));
+    page.add(Widgets.put_input("text", "message", ""));
     page.add(Widgets.put_button("Send", () => { message_callback(eventEmitter) }));
     page.useScope();
     eventEmitter.on("message", async () => {
