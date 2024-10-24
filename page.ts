@@ -1,5 +1,6 @@
 // Copyright 2024 the Marveluzz authors. All rights reserved. MIT license.
 import { CallbackRegistry } from "./callback-registery.ts"
+import { WebSocketAdapter } from "./websocket-adapter.ts";
 import { outputCommandInterface, Widgets } from "./widgets.ts"
 
 /**
@@ -78,7 +79,7 @@ const SCOPE_PREFIX: string = "pywebio-scope-";
  * Manages the client side notably by sending commands, handling events and managing scope tree mirroring the DOM tree on client side.
  */
 export class Page {
-  private socket: WebSocket;
+  private socket: WebSocketAdapter;
   private callbacks: CallbackRegistry;
   private scopeRoot: TreeNode<string>; // TODO ?
   private currentScope: TreeNode<string>;
@@ -88,15 +89,15 @@ export class Page {
    * @param socket
    * The opened websocket to communicate with the client side JS
    */
-  constructor(socket: WebSocket) {
+  constructor(socket: WebSocketAdapter) {
     this.scopeRoot = new TreeNode<string>("ROOT");
     this.currentScope = this.scopeRoot;
     this.socket = socket;
     this.callbacks = new CallbackRegistry();
-    socket.onmessage = (event: MessageEvent) => {
+    socket.addEventListener('message', (event: MessageEvent) => {
       //console.log(`Message from client: ${event.data}`);
       this.handleMessage(event);
-    };
+    });
   }
 
   /**
@@ -220,15 +221,15 @@ export class Page {
         try {
           const data = JSON.parse(event.data);
           if (data.event === "js_yield") {
-            this.socket.removeEventListener('message', messageHandler);
+            this.socket.removeEventListener('message', messageHandler as (event: Event) => void);
             resolve(data.data.value);
           }
         } catch (error) {
-          this.socket.removeEventListener('message', messageHandler);
+          this.socket.removeEventListener('message', messageHandler as (event: Event) => void);
           reject(error);
         }
       };
-      this.socket.addEventListener("message", messageHandler);
+      this.socket.addEventListener("message", messageHandler as (event: Event) => void);
       //console.log(command);
       this.socket.send(JSON.stringify(command));
     });
@@ -241,20 +242,20 @@ export class Page {
    * @param value
    * Value the widget will be set to.
    */
-    setValue<T>(name: string, value: T) {
-      const command = {
-        command: "pin_update",
-        task_id: "",
-        spec: {
-          name: name,
-          attributes: {
-            value: value
-          }
+  setValue<T>(name: string, value: T) {
+    const command = {
+      command: "pin_update",
+      task_id: "",
+      spec: {
+        name: name,
+        attributes: {
+          value: value
         }
-      };
-      this.socket.send(JSON.stringify(command));
-    }
-  
+      }
+    };
+    this.socket.send(JSON.stringify(command));
+  }
+
   /**
    * Handles messages coming from the client side JS
    * @param event 
@@ -273,7 +274,7 @@ export class Page {
       // Empty
     }
   }
-  
+
   /**
    * Set focus on a specific input widget.
    * @param name 
@@ -300,11 +301,11 @@ export class Page {
     // TODO add a timer option though the user can do some polling or housekeeping in-between.
     return new Promise((resolve) => {
       let close_listener = (event: CloseEvent) => {
-        this.socket.removeEventListener("close", close_listener);
+        this.socket.removeEventListener("close", close_listener as (event: Event) => void);
         resolve(event);
 
       }
-      this.socket.addEventListener('close', close_listener);
+      this.socket.addEventListener('close', close_listener as (event: Event) => void);
     });
   }
   private static scope2dom(scope: string): string {

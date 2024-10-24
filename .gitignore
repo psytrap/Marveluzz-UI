@@ -4,7 +4,7 @@ __pycache__/
 *.db
 *.sqlite3
 *.lock
-
+*-lock.json
 .idea/
 
 pywebio/html/js/pywebio.min.*
@@ -14,3 +14,9 @@ pywebio/html/js/pywebio.min.*
 /*.egg-info
 /docs/_build
 /archive
+/node_modules
+/node_port/*js
+/node_port/*.d.ts
+/node_port/assets
+/node_port/generated
+/node_port/node_modules

@@ -33,8 +33,8 @@
  * 
  */
 
- import { join, fromFileUrl } from "@std/path";
- import { Page } from "./page.ts";
+import { join, fromFileUrl } from "@std/path";
+import { Page } from "./page.ts";
 import { Widgets } from "./widgets.ts"
 
 export { Page, Widgets }

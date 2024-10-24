@@ -1,0 +1,35 @@
+{
+  "name": "marveluzz-node",
+  "version": "0.0.13",
+  "description": "Early Alpha - Very basic implementation even lacking a general design for error handling",
+  "main": "./index.js",
+  "scripts": {
+    "generate": "rm -rfv generated *js *.d.ts && mkdir -p generated && for file in $(find .. -maxdepth 1 -name \"*.ts\" -print) ; do echo $file; sed 's/\\.ts/\\.js/g'  \"$file\" > \"generated/$(basename \"$file\")\"; done",
+    "adapt": "mv -v generated/websocket-adapter.node.ts generated/websocket-adapter.ts",
+    "preprocess": "npm run generate && npm run adapt",
+    "postprocess": "sed -i '/^import.*\".\\//s/\\(\\\".*\\)\";/\\1.js\";/' ./index.js",
+    "assets": "rm -rfv assets && cp -rv ../assets .",
+    "build": "npm run preprocess && npm run assets && tsc && npm run postprocess",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "psytrap",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "*js",
+    "*.d.ts",
+    "assets",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/ws": "^8.5.12",
+    "tsc-node": "^0.0.3",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
