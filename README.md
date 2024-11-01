@@ -20,7 +20,7 @@ Get it on:
 * All server-side logic, with the session management encapsulated.
 * Async implementation.
 * Support for plain Deno server and the Oak middleware.
-* Single file, no generate step
+* Single file, no generate step (Runs directly from Deno.com playground)
 
 # Example
 
