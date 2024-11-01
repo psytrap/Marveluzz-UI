@@ -11,3 +11,20 @@
 * (npm adduser)
 * npm publish --access public
 * ...
+
+# Check Docs
+
+* Github
+* NPM
+* JSR
+
+# TODO
+
+* Simplify examples
+* PyWebIO Github submodule
+* Github automation
+* Feature completeness
+* Better scope handling, callback registery
+* TS code based scopes
+* Better naming scheme for widgets? -> interactive?
+* Many more TODOs...
